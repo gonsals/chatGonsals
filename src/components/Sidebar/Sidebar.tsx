@@ -1,9 +1,14 @@
-//import { Test } from './Sidebar.styles';
+import Chats from "../Chats/index";
+import Navbar from "../Navbar/index";
+import Search from "../Search/index";
+import { SidebarDiv } from "./Sidebar.styles";
 
 const Sidebar = () => (
-  <div>
-    sidebar
-  </div>
+    <SidebarDiv>
+        <Navbar />
+        <Search />
+        <Chats />
+    </SidebarDiv>
 );
 
 export default Sidebar;

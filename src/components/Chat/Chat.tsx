@@ -1,19 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-//import { Test } from './Chat.styles';
+import { ChatDiv } from "./Chat.styles";
+import Cam from "../../img/cam.png";
+import Add from "../../img/add.png";
+import More from "../../img/more.png";
+import Messages from "../Messages/index";
+import Input from "../Input/index";
 
-const Chat = (props) => (
-  <div className="ChatWrapper">
-    Test content
-  </div>
+const Chat = () => (
+    <ChatDiv>
+        <div className="chatInfo">
+            <span>Jane</span>
+            <div className="chatIcons">
+                <img src={Cam} alt="" />
+                <img src={Add} alt="" />
+                <img src={More} alt="" />
+            </div>
+        </div>
+        <Messages />
+        <Input />
+    </ChatDiv>
 );
-
-Chat.propTypes = {
-  // bla: PropTypes.string,
-};
-
-Chat.defaultProps = {
-  // bla: 'test',
-};
 
 export default Chat;

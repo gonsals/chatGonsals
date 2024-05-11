@@ -1,26 +1,7 @@
 import styled from "styled-components";
 import { mobile } from "../../pages/Register/Register.styles";
 
-export const SearchContainer = styled.div`
-    border-bottom: 1px solid gray;
-
-    .searchForm {
-        input {
-            background-color: transparent;
-            border: none;
-            color: white;
-            outline: none;
-            padding: 10px;
-            ${mobile(`
-        display:none;
-        `)}
-
-            &::placeholder {
-                color: lightgray;
-            }
-        }
-    }
-
+export const Test = styled.div`
     .userChat {
         padding: 10px;
         display: flex;
@@ -29,9 +10,9 @@ export const SearchContainer = styled.div`
         color: white;
         cursor: pointer;
         ${mobile(`
-        flex-direction:column;
-        gap:0px
-        `)}
+            flex-direction:column;
+            gap:0;
+            `)}
 
         &:hover {
             background-color: #2f2d52;
@@ -49,11 +30,23 @@ export const SearchContainer = styled.div`
         }
 
         .userChatInfo {
+            ${mobile(`
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            `)}
             span {
                 font-size: 18px;
                 font-weight: 500;
                 ${mobile(`
                 font-size: 14px;
+            `)}
+            }
+            p {
+                font-size: 14px;
+                ${mobile(`
+                font-size: 10px;
             `)}
             }
         }
