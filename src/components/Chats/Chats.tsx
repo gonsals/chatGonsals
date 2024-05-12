@@ -1,39 +1,56 @@
+import { useEffect, useState, useContext } from "react";
 import { Test } from "./Chats.styles";
+import { onSnapshot, doc, DocumentData } from "firebase/firestore";
+import { db } from "../../app/services/firebase";
+import { AuthContext, AuthContextType } from "../../context/AuthContext";
+import { ChatContext } from "../../context/ChatContext";
+import { User } from "firebase/auth";
 
-const Chats = () => (
-    <Test>
-        <div className="userChat">
-            <img
-                src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?cs=srgb&dl=pexels-olly-774909.jpg&fm=jpg"
-                alt="userImg"
-            />
-            <div className="userChatInfo">
-                <span>Jane</span>
-                <p>Hello</p>
-            </div>
-        </div>
-        <div className="userChat">
-            <img
-                src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?cs=srgb&dl=pexels-olly-774909.jpg&fm=jpg"
-                alt="userImg"
-            />
-            <div className="userChatInfo">
-                <span>Jane</span>
-                <p>Hello</p>
-            </div>
-        </div>
-        <div className="userChat">
-            <img
-                src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?cs=srgb&dl=pexels-olly-774909.jpg&fm=jpg"
-                alt="userImg"
-            />
-            <div className="userChatInfo">
-                <span>Jane</span>
-                <p>Hello</p>
-            </div>
-        </div>
-        
-    </Test>
-);
+const Chats = () => {
+    const { currentUser }: AuthContextType = useContext(AuthContext);
+    const { dispatch } = useContext(ChatContext);
+
+    const [chats, setChats] = useState<DocumentData | null>(null);
+
+    useEffect(() => {
+        if (currentUser && currentUser.uid) {
+            const userChatRef = doc(db, "userChats", currentUser.uid);
+            const unsub = onSnapshot(userChatRef, (doc) => {
+                if (doc.exists()) {
+                    setChats(doc.data() as DocumentData);
+                } else {
+                    setChats(null);
+                }
+            });
+            return () => {
+                unsub();
+            };
+        }
+    }, [currentUser]);
+
+    const handleSelect = (user: User) => {
+        dispatch({ type: "CHANGE_USER", payload: user });
+    };
+
+    chats && console.log(Object.entries(chats));
+    return (
+        <Test>
+            {chats &&
+                Object.entries(chats).map((chat) => (
+                    <div
+                        className="userChat"
+                        key={chat[0]}
+                        onClick={() => handleSelect(chat[1].userInfo)}
+                    >
+                        <img src={chat[1].userInfo.photoURL} alt="userImg" />
+                        <div className="userChatInfo">
+                            <span>{chat[1].userInfo.displayName}</span>
+                            <p>{chat[1].userInfo.lastMessage?.text}</p>
+                        </div>
+                    </div>
+                ))}
+        </Test>
+    );
+};
 
 export default Chats;

@@ -44,7 +44,7 @@ export const NavBarContainer = styled.div`
         font-size: 10px;
         border: none;
         cursor: pointer;
-        padding: 0 4px;
+        padding: 2px 6px;
         ${tablet(`
             position:absolute;
             bottom:10px;

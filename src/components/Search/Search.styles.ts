@@ -19,6 +19,10 @@ export const SearchContainer = styled.div`
                 color: lightgray;
             }
         }
+
+        button{
+            
+        }
     }
 
     .userChat {

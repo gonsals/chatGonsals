@@ -5,7 +5,7 @@ import { auth, db, storage } from "../../app/services/firebase";
 import { useState } from "react";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const Register = () => {
@@ -93,7 +93,7 @@ const Register = () => {
                 </form>
                 {err && <span>Somthing went wrong</span>}
                 <p>
-                    Yo do have an acount? <span>Login</span>
+                    Yo do have an acount? <Link to="/login">Login</Link>
                 </p>
             </div>
         </FormContainer>
