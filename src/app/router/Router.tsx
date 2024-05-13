@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import {
     BrowserRouter as Router,
     Route,
@@ -7,15 +9,15 @@ import {
 import Register from "../../pages/Register";
 import Login from "../../pages/LogIn/LogIn";
 import Home from "../../pages/Home";
-import { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import LoadingPage from "../../pages/LoadingPage";
 
 const AppRouter = () => {
-    const { currentUser } = useContext(AuthContext);
-
-    console.log(currentUser);
+    const { currentUser, isLoading } = useContext(AuthContext);
 
     const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+        if (isLoading) {
+            return <LoadingPage />;
+        }
         if (!currentUser) {
             return <Navigate to="/login" />;
         }

@@ -16,7 +16,6 @@ const Register = () => {
         e: React.BaseSyntheticEvent<Event, EventTarget & HTMLFormElement>
     ) => {
         e.preventDefault();
-        console.log(e.target[0].value);
         const displayName = e.target[0].value;
         const email = e.target[1].value;
         const password = e.target[2].value;

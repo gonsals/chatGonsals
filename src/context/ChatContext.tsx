@@ -1,64 +1,64 @@
-import { createContext, ReactNode, useContext, useReducer } from "react";
-import { User } from "firebase/auth";
+import { createContext, useContext, useReducer } from "react";
 import { AuthContext } from "./AuthContext";
+import { User } from "firebase/auth";
 
-// Definimos el tipo para el estado inicial
 type InitialStateType = {
     chatId: string;
-    user: any; 
+    user: User;
 };
 
-// Definimos el tipo para las acciones del reducer
 type ActionType = {
     type: string;
     payload: any;
 };
 
-// Definimos el tipo para el contexto
 export type ChatContextType = {
-    currentUser: User | null;
     dispatch: React.Dispatch<ActionType>;
-} & InitialStateType;
+    data: InitialStateType;
+};
 
-// Creamos el contexto
 export const ChatContext = createContext<ChatContextType>({
-    currentUser: null,
-    chatId: "null",
-    user: {},
     dispatch: () => {},
+    data: {
+        chatId: "null",
+        user: {} as User,
+    },
 });
 
-export const ChatContextProvider = ({ children }: { children: ReactNode }) => {
+export const ChatContextProvider = ({
+    children,
+}: {
+    children: React.ReactNode;
+}) => {
     const { currentUser } = useContext(AuthContext);
+        
+    const INITIAL_STATE = {
+        chatId: "null",
+        user: currentUser || ({} as User),
+    };
 
-    const chatReducer = (
-        state: InitialStateType,
-        action: ActionType
-    ): InitialStateType => {
+    const chatReducer = (state: InitialStateType, action: ActionType) => {
         switch (action.type) {
             case "CHANGE_USER":
                 return {
                     user: action.payload,
-                    chatId: currentUser
-                        ? currentUser.uid > action.payload.uid
-                            ? currentUser.uid + action.payload.uid
-                            : action.payload.uid + currentUser.uid
-                        : "null",
+                    chatId:
+                        currentUser && action.payload.uid
+                            ? currentUser.uid > action.payload.uid
+                                ? currentUser.uid + action.payload.uid
+                                : action.payload.uid + currentUser.uid
+                            : "null",
                 };
+
             default:
                 return state;
         }
     };
 
-    const INITIAL_STATE: InitialStateType = {
-        chatId: "null",
-        user: {},
-    };
-
     const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE);
 
     return (
-        <ChatContext.Provider value={{ ...state, currentUser, dispatch }}>
+        <ChatContext.Provider value={{ data: state, dispatch }}>
             {children}
         </ChatContext.Provider>
     );

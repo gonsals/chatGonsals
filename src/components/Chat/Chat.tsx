@@ -8,14 +8,12 @@ import { useContext } from "react";
 import { ChatContext } from "../../context/ChatContext";
 
 const Chat = () => {
-    const { user } = useContext(ChatContext);
-
-console.log(user);
+    const { data } = useContext(ChatContext);
 
     return (
         <ChatDiv>
             <div className="chatInfo">
-                <span>{user.displayName}</span>
+                <span>{data.user?.displayName}</span>
                 <div className="chatIcons">
                     <img src={Cam} alt="" />
                     <img src={Add} alt="" />
