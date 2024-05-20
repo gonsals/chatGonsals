@@ -9,7 +9,7 @@ type InitialStateType = {
 
 type ActionType = {
     type: string;
-    payload: any;
+    payload: any; 
 };
 
 export type ChatContextType = {
@@ -31,7 +31,7 @@ export const ChatContextProvider = ({
     children: React.ReactNode;
 }) => {
     const { currentUser } = useContext(AuthContext);
-        
+
     const INITIAL_STATE = {
         chatId: "null",
         user: currentUser || ({} as User),
