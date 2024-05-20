@@ -9,7 +9,7 @@ type InitialStateType = {
 
 type ActionType = {
     type: string;
-    payload: any; 
+    payload: any;
 };
 
 export type ChatContextType = {
